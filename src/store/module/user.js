@@ -71,6 +71,7 @@ export default {
         try {
           getUserInfo(state.token).then(res => {
             const data = res.data
+            console.log(data.username)
             commit('setAvator', data.avator)
             commit('setUserName', data.name)
             commit('setUserId', data.user_id)
