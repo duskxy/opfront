@@ -22,6 +22,37 @@ export const getUserInfo = (token) => {
   })
 }
 
+export const getUserList = (params) => {
+  return axios.request({
+    url: 'api/user/',
+    method: 'get',
+    params
+  })
+}
+
+export const createUser = (data) => {
+  return axios.request({
+    url: 'api/user/',
+    method: 'post',
+    data
+  })
+}
+
+export const editUser = (id,data) => {
+  return axios.request({
+    url: 'api/user/' + id + '/',
+    method: 'patch',
+    data
+  })
+}
+
+export const deleteUser = (id) => {
+  return axios.request({
+    url: 'api/user/' + id + '/',
+    method: 'delete',
+  })
+}
+
 export const logout = (token) => {
   return axios.request({
     url: 'logout',

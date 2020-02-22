@@ -5,10 +5,12 @@ import App from './App'
 import router from './router'
 import store from './store'
 import iView from 'iview'
+import moment from 'moment'
 import i18n from '@/locale'
 import config from '@/config'
 import importDirective from '@/directive'
 import installPlugin from '@/plugin'
+import Bus from '@/libs/bus'
 import 'iview/dist/styles/iview.css'
 import './index.less'
 import '@/assets/icons/iconfont.css'
@@ -31,6 +33,21 @@ Vue.config.productionTip = false
  * @description 全局注册应用配置
  */
 Vue.prototype.$config = config
+
+/* 自定义 */
+Vue.prototype.$bus = Bus
+Vue.prototype.$moment = moment;
+Vue.filter('moment', function(value, formatString) {
+    formatString = formatString || 'YYYY-MM-DD HH:mm:ss';
+    return moment(value).format(formatString)
+})
+
+if (!String.prototype.moment) {
+    String.prototype.moment = function(formatString) {
+        formatString = formatString || 'YYYY-MM-DD HH:mm:ss';
+        return moment(this).format(formatString)
+    };
+}
 /**
  * 注册指令
  */

@@ -1,6 +1,8 @@
 import axios from 'axios'
 import store from '@/store'
 import Cookies from 'js-cookie';
+import iView from 'iview';
+
 // import { Spin } from 'iview'
 const addErrorLog = errorInfo => {
   const { statusText, status, request: { responseURL } } = errorInfo
@@ -11,6 +13,13 @@ const addErrorLog = errorInfo => {
     url: responseURL
   }
   if (!responseURL.includes('save_error_logger')) store.dispatch('addErrorLog', info)
+}
+function permerror(nodesc, title, desc) {
+  iView.Notice.error({
+      duration: 10,
+      title: title,
+      desc: nodesc ? '' : desc
+  });
 }
 
 class HttpRequest {
@@ -57,6 +66,30 @@ class HttpRequest {
     }, error => {
       this.destroy(url)
       addErrorLog(error.response)
+      if (error.response) {
+        switch (error.response.status) {
+          case 400:
+              permerror(false, error.response.request.statusText, error.response.request.responseText)
+              break
+
+          case 401: // 拦截验证token失败的请求，清除token信息并跳转到登录页面
+              store.commit('logout')
+              router.push({
+                  name: 'login'
+              })
+              break
+
+          case 403:
+              permerror(false, error.response.statusText, error.response.data.detail)
+              break
+
+          case 500:
+              permerror(false, error.response.status, error.response.statusText)
+              break
+
+      }
+      }
+
       return Promise.reject(error)
     })
   }

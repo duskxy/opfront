@@ -58,65 +58,14 @@ export default [
       icon: 'ios-book'
     }
   },
-  {
-    path: '/multilevel',
-    name: 'multilevel',
-    meta: {
-      icon: 'md-menu',
-      title: '多级菜单'
-    },
-    component: Main,
-    children: [
-      {
-        path: 'level_2_1',
-        name: 'level_2_1',
-        meta: {
-          icon: 'md-funnel',
-          title: '二级-1'
-        },
-        component: () => import('@/view/multilevel/level-2-1.vue')
-      },
-      {
-        path: 'level_2_2',
-        name: 'level_2_2',
-        meta: {
-          access: ['super_admin'],
-          icon: 'md-funnel',
-          showAlways: true,
-          title: '二级-2'
-        },
-        component: parentView,
-        children: [
-          {
-            path: 'level_2_2_1',
-            name: 'level_2_2_1',
-            meta: {
-              icon: 'md-funnel',
-              title: '三级'
-            },
-            component: () => import('@/view/multilevel/level-2-2/level-3-1.vue')
-          }
-        ]
-      },
-      {
-        path: 'level_2_3',
-        name: 'level_2_3',
-        meta: {
-          icon: 'md-funnel',
-          title: '二级-3'
-        },
-        component: () => import('@/view/multilevel/level-2-3.vue')
-      }
-    ]
-  },
-
 
   {
     path: '/users',
     name: 'users',
     meta: {
       icon: 'md-body',
-      title: '用户中心'
+      title: '用户中心',
+      access: ['super_admin']
     },
     component: Main,
     children: [
@@ -137,6 +86,55 @@ export default [
           title: '组管理'
         },
         component: () => import('@/view/usercenter/group/index.vue')
+      }
+    ]
+  },
+
+  {
+    path: '/release',
+    name: 'release',
+    meta: {
+      icon: 'md-body',
+      title: '项目管理',
+      access: ['super_admin']
+    },
+    component: Main,
+    children: [
+      {
+        path: '/project',
+        name: 'project',
+        meta: {
+          icon: 'md-funnel',
+          title: '项目中心'
+        },
+        component: () => import('@/view/release/project/index.vue')
+      },
+      {
+        path: '/web',
+        name: 'web',
+        meta: {
+          icon: 'md-funnel',
+          title: 'web中心'
+        },
+        component: () => import('@/view/release/web/index.vue')
+      },
+      {
+        path: '/list',
+        name: 'list',
+        meta: {
+          icon: 'md-funnel',
+          title: '申请列表'
+        },
+        component: () => import('@/view/release/deploy/list.vue')
+      },
+      {
+        path: '/history',
+        name: 'history',
+        meta: {
+          icon: 'md-funnel',
+          title: '申请历史'
+        },
+        component: () => import('@/view/release/deploy/history.vue')
       }
     ]
   },
